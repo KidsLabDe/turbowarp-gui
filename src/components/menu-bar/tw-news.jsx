@@ -1,38 +1,17 @@
 import React from 'react';
-import {APP_NAME} from '../../lib/brand';
 import {isScratchDesktop} from '../../lib/isScratchDesktop';
 import CloseButton from '../close-button/close-button.jsx';
 import styles from './tw-news.css';
-
-const LOCAL_STORAGE_KEY = 'tw:closedNews';
-const NEWS_ID = 'new-compiler';
-
-const getIsClosedInLocalStorage = () => {
-    try {
-        return localStorage.getItem(LOCAL_STORAGE_KEY) === NEWS_ID;
-    } catch (e) {
-        return false;
-    }
-};
-
-const markAsClosedInLocalStorage = () => {
-    try {
-        localStorage.setItem(LOCAL_STORAGE_KEY, NEWS_ID);
-    } catch (e) {
-        // ignore
-    }
-};
 
 class TWNews extends React.Component {
     constructor (props) {
         super(props);
         this.state = {
-            closed: getIsClosedInLocalStorage()
+            closed: false
         };
         this.handleClose = this.handleClose.bind(this);
     }
     handleClose () {
-        markAsClosedInLocalStorage();
         this.setState({
             closed: true
         });
@@ -46,7 +25,7 @@ class TWNews extends React.Component {
             <div className={styles.news}>
                 <div className={styles.text}>
                     {/* eslint-disable-next-line max-len */}
-                    {`We rewrote the ${APP_NAME} compiler to make projects run even faster. Bugs are possible. `}
+                    {`This experiment uses the old compiler and will not receive updates. Don't use if not necessary. `}
                     <a
                         href="https://docs.turbowarp.org/new-compiler"
                         target="_blank"
