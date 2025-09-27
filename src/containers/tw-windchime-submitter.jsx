@@ -9,8 +9,9 @@ const submittedThisSession = new Set();
 
 const isOptedOut = () => {
     try {
-        if (localStorage.getItem(OPT_OUT_KEY) === 'true') {
-            return true;
+        const local = localStorage.getItem(OPT_OUT_KEY);
+        if (local !== null) {
+            return local === 'true';
         }
     } catch (e) {
         // ignore
