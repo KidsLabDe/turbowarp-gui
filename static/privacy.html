@@ -73,9 +73,9 @@
                         }
                     };
                     const checkbox = document.querySelector('.windchimes-optout');
-                    checkbox.checked = isOptedOut();
+                    checkbox.checked = !isOptedOut();
                     checkbox.addEventListener('change', (e) => {
-                        setOptedOut(e.target.checked);
+                        setOptedOut(!e.target.checked);
                     });
                 })();
             </script>
