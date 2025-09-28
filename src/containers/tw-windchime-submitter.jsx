@@ -43,7 +43,7 @@ class TWWindchimeSubmitter extends React.Component {
         fetch(ENDPOINT, {
             method: 'PUT',
             body: JSON.stringify({
-                resource: this.props.projectId,
+                resource: `scratch/${this.props.projectId}`,
                 event: this.props.isEmbedded ? 'view/embed' : 'view/index'
             }),
             headers: {
