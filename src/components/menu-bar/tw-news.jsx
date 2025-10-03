@@ -25,7 +25,7 @@ class TWNews extends React.Component {
             <div className={styles.news}>
                 <div className={styles.text}>
                     {/* eslint-disable-next-line max-len */}
-                    {`This experiment uses the old compiler and will not receive updates. Don't use if not necessary. `}
+                    {`This experiment uses the old compiler and will not receive updates. `}
                     <a
                         href="https://docs.turbowarp.org/new-compiler"
                         target="_blank"
