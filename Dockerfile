@@ -2,12 +2,11 @@
 FROM node:16-alpine AS builder
 WORKDIR /app
 
-# Install dependencies first for better caching
-COPY package.json package-lock.json* ./
-RUN npm ci
-
-# Copy source files
+# Copy all source files first (npm ci runs prepublish which needs scripts/)
 COPY . .
+
+# Install dependencies (prepublish script will run automatically)
+RUN npm ci
 
 # Build argument for backend URL (injected at build time via webpack DefinePlugin)
 ARG BACKEND_URL=https://localhost:8080
