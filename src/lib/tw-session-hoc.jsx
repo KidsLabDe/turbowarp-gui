@@ -21,8 +21,8 @@ import {setSession, setSessionStatus, Status} from '../reducers/session';
 import {setUsername} from '../reducers/tw';
 import log from './log';
 
-// Backend configuration - change this URL to match your backend
-const DEFAULT_BACKEND_HOST = 'https://localhost:8080';
+// Backend configuration - can be overridden via BACKEND_URL env var or ?backend_host URL parameter
+const DEFAULT_BACKEND_HOST = process.env.BACKEND_URL || 'https://localhost:8080';
 
 /**
  * Higher Order Component to manage session/authentication with a backend.

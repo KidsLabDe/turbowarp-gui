@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import GUI from '../containers/gui.jsx';
 
-// Backend configuration - change this URL to match your backend
-const DEFAULT_BACKEND_HOST = 'https://localhost:8080';
+// Backend configuration - can be overridden via BACKEND_URL env var or ?backend_host URL parameter
+const DEFAULT_BACKEND_HOST = process.env.BACKEND_URL || 'https://localhost:8080';
 
 const searchParams = new URLSearchParams(location.search);
 const cloudHost = searchParams.get('cloud_host') || 'wss://clouddata.turbowarp.org';
