@@ -25,6 +25,7 @@ import AppStateHOC from '../lib/app-state-hoc.jsx';
 import ErrorBoundaryHOC from '../lib/error-boundary-hoc.jsx';
 import TWProjectMetaFetcherHOC from '../lib/tw-project-meta-fetcher-hoc.jsx';
 import TWStateManagerHOC from '../lib/tw-state-manager-hoc.jsx';
+import TWSessionHOC from '../lib/tw-session-hoc.jsx';
 import SBFileUploaderHOC from '../lib/sb-file-uploader-hoc.jsx';
 import TWPackagerIntegrationHOC from '../lib/tw-packager-integration-hoc.jsx';
 import SettingsStore from '../addons/settings-store-singleton';
@@ -389,6 +390,7 @@ const ConnectedInterface = injectIntl(connect(
 const WrappedInterface = compose(
     AppStateHOC,
     ErrorBoundaryHOC('TW Interface'),
+    TWSessionHOC,
     TWProjectMetaFetcherHOC,
     TWStateManagerHOC,
     TWPackagerIntegrationHOC

@@ -33,6 +33,7 @@ import ChangeUsername from '../../containers/tw-change-username.jsx';
 import CloudVariablesToggler from '../../containers/tw-cloud-toggler.jsx';
 import TWSaveStatus from './tw-save-status.jsx';
 import TWNews from './tw-news.jsx';
+import AccountNav from './account-nav.jsx';
 
 import {openTipsLibrary, openSettingsModal, openRestorePointModal} from '../../reducers/modals';
 import {setPlayer} from '../../reducers/mode';
@@ -1036,8 +1037,21 @@ class MenuBar extends React.Component {
 
                 <div className={styles.accountInfoGroup}>
                     <TWSaveStatus
+                        canSave={this.props.canSave}
                         showSaveFilePicker={this.props.showSaveFilePicker}
                     />
+                    {this.props.username ? (
+                        <AccountNav
+                            className={styles.menuBarItem}
+                            isOpen={this.props.accountMenuOpen}
+                            isRtl={this.props.isRtl}
+                            menuBarMenuClassName={styles.menuBarMenu}
+                            onClick={this.props.onClickAccount}
+                            onClose={this.props.onRequestCloseAccount}
+                            onLogOut={this.props.onLogOut}
+                            username={this.props.username}
+                        />
+                    ) : null}
                 </div>
 
                 {aboutButton}

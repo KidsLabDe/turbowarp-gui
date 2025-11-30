@@ -127,12 +127,23 @@ const ProjectFetcherHOC = function (WrappedComponent) {
                     })
                     .then(buffer => ({data: buffer}));
             } else {
-                // TW: Temporary hack for project tokens
-                assetPromise = fetchProjectToken(projectId)
-                    .then(token => {
-                        storage.setProjectToken(token);
-                        return storage.load(storage.AssetType.Project, projectId, storage.DataFormat.JSON);
-                    });
+                // TW: Check if using custom backend (not default Scratch/TurboWarp hosts)
+                const isCustomBackend = this.props.projectHost &&
+                    !this.props.projectHost.includes('scratch.mit.edu') &&
+                    !this.props.projectHost.includes('turbowarp.org') &&
+                    !this.props.projectHost.includes('projects.penguinmod.com');
+
+                if (isCustomBackend) {
+                    // Custom backend: load directly without token
+                    assetPromise = storage.load(storage.AssetType.Project, projectId, storage.DataFormat.JSON);
+                } else {
+                    // TW: Temporary hack for project tokens (original behavior)
+                    assetPromise = fetchProjectToken(projectId)
+                        .then(token => {
+                            storage.setProjectToken(token);
+                            return storage.load(storage.AssetType.Project, projectId, storage.DataFormat.JSON);
+                        });
+                }
             }
 
             return assetPromise

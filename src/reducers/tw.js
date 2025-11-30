@@ -17,6 +17,9 @@ const SET_HAS_CLOUD_VARIABLES = 'tw/SET_HAS_CLOUD_VARIABLES';
 const SET_CLOUD_HOST = 'tw/SET_CLOUD_HOST';
 const SET_PLATFORM_MISMATCH_DETAILS = 'tw/SET_PLATFORM_MISMATCH_DETAILS';
 const SET_PROJECT_ERROR = 'tw/SET_PROJECT_ERROR';
+const SET_SESSION = 'tw/SET_SESSION';
+const SET_SESSION_LOADING = 'tw/SET_SESSION_LOADING';
+const SET_BACKEND_HOST = 'tw/SET_BACKEND_HOST';
 
 export const initialState = {
     framerate: 30,
@@ -52,7 +55,13 @@ export const initialState = {
         platform: null,
         callback: null
     },
-    projectError: null
+    projectError: null,
+    session: {
+        loggedIn: false,
+        user: null
+    },
+    sessionLoading: true,
+    backendHost: ''
 };
 
 const reducer = function (state, action) {
@@ -139,6 +148,18 @@ const reducer = function (state, action) {
     case SET_PROJECT_ERROR:
         return Object.assign({}, state, {
             projectError: action.projectError
+        });
+    case SET_SESSION:
+        return Object.assign({}, state, {
+            session: action.session
+        });
+    case SET_SESSION_LOADING:
+        return Object.assign({}, state, {
+            sessionLoading: action.sessionLoading
+        });
+    case SET_BACKEND_HOST:
+        return Object.assign({}, state, {
+            backendHost: action.backendHost
         });
     default:
         return state;
@@ -278,6 +299,27 @@ const setProjectError = function (projectError) {
     };
 };
 
+const setSession = function (session) {
+    return {
+        type: SET_SESSION,
+        session
+    };
+};
+
+const setSessionLoading = function (sessionLoading) {
+    return {
+        type: SET_SESSION_LOADING,
+        sessionLoading
+    };
+};
+
+const setBackendHost = function (backendHost) {
+    return {
+        type: SET_BACKEND_HOST,
+        backendHost
+    };
+};
+
 export {
     reducer as default,
     initialState as twInitialState,
@@ -299,5 +341,8 @@ export {
     setHasCloudVariables,
     setCloudHost,
     setPlatformMismatchDetails,
-    setProjectError
+    setProjectError,
+    setSession,
+    setSessionLoading,
+    setBackendHost
 };
