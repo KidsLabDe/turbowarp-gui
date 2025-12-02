@@ -6,7 +6,42 @@ import log from './log';
 import {setProjectTitle} from '../reducers/project-title';
 import {setAuthor, setDescription} from '../reducers/tw';
 
+// Get backend host - same logic as render-gui.jsx
+const DEFAULT_BACKEND_HOST = process.env.BACKEND_URL || 'https://localhost:8080';
+
+const getCustomBackendHost = () => {
+    if (typeof window === 'undefined') return null;
+    const searchParams = new URLSearchParams(window.location.search);
+    const backendHostParam = searchParams.get('backend_host');
+    const backendHost = backendHostParam || DEFAULT_BACKEND_HOST;
+
+    // Only return if it's a custom backend (not TurboWarp/Scratch)
+    if (backendHost &&
+        !backendHost.includes('scratch.mit.edu') &&
+        !backendHost.includes('turbowarp.org') &&
+        !backendHost.includes('penguinmod.com')) {
+        return backendHost;
+    }
+    return null;
+};
+
 export const fetchProjectMeta = async projectId => {
+    const customBackendHost = getCustomBackendHost();
+
+    // Custom backend: fetch from own API
+    if (customBackendHost) {
+        const url = `${customBackendHost}/api/projects/${projectId}`;
+        const res = await fetch(url);
+        if (!res.ok) {
+            throw new Error(`Failed to fetch project meta: ${res.status}`);
+        }
+        const data = await res.json();
+        // Add backendHost for avatar URL construction
+        data._backendHost = customBackendHost;
+        return data;
+    }
+
+    // Default TurboWarp behavior
     const urls = [
         `https://trampoline.turbowarp.org/api/projects/${projectId}`,
         `https://trampoline.turbowarp.xyz/api/projects/${projectId}`
@@ -70,7 +105,10 @@ const TWProjectMetaFetcherHOC = function (WrappedComponent) {
                             this.props.onSetProjectTitle(title);
                         }
                         const authorName = data.author.username;
-                        const authorThumbnail = `https://trampoline.turbowarp.org/avatars/${data.author.id}`;
+                        // Custom backend: use /api/avatar/{id}, otherwise TurboWarp
+                        const authorThumbnail = data._backendHost ?
+                            `${data._backendHost}/api/avatar/${data.author.id}` :
+                            `https://trampoline.turbowarp.org/avatars/${data.author.id}`;
                         this.props.onSetAuthor(authorName, authorThumbnail);
                         const instructions = data.instructions || '';
                         const credits = data.description || '';
