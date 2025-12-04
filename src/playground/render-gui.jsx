@@ -14,6 +14,7 @@ const backendHost = backendHostParam || DEFAULT_BACKEND_HOST;
 
 // Upload project thumbnail to backend
 const updateProjectThumbnail = (projectId, thumbnailBlob) => {
+    console.log('[GamesLab] Uploading thumbnail for project:', projectId, 'size:', thumbnailBlob.size);
     fetch(`${backendHost}/projects/${projectId}/thumbnail`, {
         method: 'PUT',
         credentials: 'include',
@@ -21,9 +22,11 @@ const updateProjectThumbnail = (projectId, thumbnailBlob) => {
             'Content-Type': thumbnailBlob.type || 'image/png'
         },
         body: thumbnailBlob
-    }).catch(err => {
-        console.error('Failed to upload thumbnail:', err);
-    });
+    })
+        .then(res => console.log('[GamesLab] Thumbnail upload response:', res.status))
+        .catch(err => {
+            console.error('[GamesLab] Failed to upload thumbnail:', err);
+        });
 };
 
 const RenderGUI = props => {
