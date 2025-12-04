@@ -12,6 +12,20 @@ const cloudHost = searchParams.get('cloud_host') || 'wss://clouddata.turbowarp.o
 const backendHostParam = searchParams.get('backend_host');
 const backendHost = backendHostParam || DEFAULT_BACKEND_HOST;
 
+// Upload project thumbnail to backend
+const updateProjectThumbnail = (projectId, thumbnailBlob) => {
+    fetch(`${backendHost}/projects/${projectId}/thumbnail`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+            'Content-Type': thumbnailBlob.type || 'image/png'
+        },
+        body: thumbnailBlob
+    }).catch(err => {
+        console.error('Failed to upload thumbnail:', err);
+    });
+};
+
 const RenderGUI = props => {
     const {
         session,
@@ -32,6 +46,7 @@ const RenderGUI = props => {
             basePath={process.env.ROOT}
             canEditTitle
             enableCommunity
+            onUpdateProjectThumbnail={canSave ? updateProjectThumbnail : undefined}
             {...componentProps}
         />
     );
