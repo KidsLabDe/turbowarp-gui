@@ -8,9 +8,13 @@ COPY . .
 # Install dependencies (prepublish script will run automatically)
 RUN npm ci
 
-# Build argument for backend URL (injected at build time via webpack DefinePlugin)
+# Build arguments (injected at build time via webpack DefinePlugin)
 ARG BACKEND_URL=https://localhost:8080
+ARG ROUTING_STYLE=wildcard
+ARG ROOT=/
 ENV BACKEND_URL=${BACKEND_URL}
+ENV ROUTING_STYLE=${ROUTING_STYLE}
+ENV ROOT=${ROOT}
 
 # Build the application
 RUN npm run build
