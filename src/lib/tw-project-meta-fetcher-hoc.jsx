@@ -31,7 +31,7 @@ export const fetchProjectMeta = async projectId => {
     // Custom backend: fetch from own API
     if (customBackendHost) {
         const url = `${customBackendHost}/api/projects/${projectId}`;
-        const res = await fetch(url);
+        const res = await fetch(url, { credentials: 'include' });
         if (!res.ok) {
             throw new Error(`Failed to fetch project meta: ${res.status}`);
         }

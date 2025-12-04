@@ -37,7 +37,12 @@ class Storage extends ScratchStorage {
     getProjectGetConfig (projectAsset) {
         const path = `${this.projectHost}/${projectAsset.assetId}`;
         const qs = this.projectToken ? `?token=${this.projectToken}` : '';
-        return path + qs;
+        // Return config object with credentials for custom backends
+        // Note: FetchTool.get uses 'credentials' directly, not 'withCredentials'
+        return {
+            url: path + qs,
+            credentials: 'include'
+        };
     }
     getProjectCreateConfig () {
         return {
@@ -55,7 +60,11 @@ class Storage extends ScratchStorage {
         this.assetHost = assetHost;
     }
     getAssetGetConfig (asset) {
-        return `${this.assetHost}/internalapi/asset/${asset.assetId}.${asset.dataFormat}/get/`;
+        // Note: FetchTool.get uses 'credentials' directly, not 'withCredentials'
+        return {
+            url: `${this.assetHost}/internalapi/asset/${asset.assetId}.${asset.dataFormat}/get/`,
+            credentials: 'include'
+        };
     }
     getAssetCreateConfig (asset) {
         return {
