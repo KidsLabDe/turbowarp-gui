@@ -52,11 +52,14 @@ ActualAuthorInfo.propTypes = {
     username: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
 };
 
+// GamesLab: Use backend URL for project links
+const BACKEND_URL = process.env.BACKEND_URL || 'https://gameslab.kidslab.de';
+
 const AuthorInfo = ({projectId, ...props}) => (
     projectId ? (
         <a
             className={styles.link}
-            href={`https://scratch.mit.edu/projects/${projectId}`}
+            href={`${BACKEND_URL}/projekt/${projectId}`}
             target="_blank"
             rel="noreferrer"
         >

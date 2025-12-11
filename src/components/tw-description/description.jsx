@@ -38,6 +38,9 @@ const decorate = text => {
     return text;
 };
 
+// GamesLab: Use backend URL for project links
+const BACKEND_URL = process.env.BACKEND_URL || 'https://gameslab.kidslab.de';
+
 const Description = ({
     instructions,
     credits,
@@ -46,14 +49,14 @@ const Description = ({
     <div className={styles.description}>
         <div className={styles.projectLink}>
             <a
-                href={`https://scratch.mit.edu/projects/${projectId}/`}
+                href={`${BACKEND_URL}/projekt/${projectId}`}
                 target="_blank"
                 rel="noreferrer"
             >
                 <FormattedMessage
-                    defaultMessage="View project on Scratch"
-                    description="Link to view project on Scratch"
-                    id="tw.viewOnScratch"
+                    defaultMessage="View project on GamesLab"
+                    description="Link to view project on GamesLab"
+                    id="tw.viewOnGamesLab"
                 />
             </a>
         </div>

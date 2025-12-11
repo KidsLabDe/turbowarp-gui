@@ -8,7 +8,9 @@ import {defaultProjectId} from '../../reducers/project-state';
 import styles from './project-input.css';
 import {setProjectId} from '../../lib/tw-navigation-utils';
 
-const PROJECT_BASE = 'https://scratch.mit.edu/projects/';
+// GamesLab: Use backend URL for project links
+const BACKEND_URL = process.env.BACKEND_URL || 'https://gameslab.kidslab.de';
+const PROJECT_BASE = `${BACKEND_URL}/projekt/`;
 
 const messages = defineMessages({
     tooltip: {
