@@ -17,18 +17,23 @@ import dropdownCaret from './dropdown-caret.svg';
 
 import styles from './account-nav.css';
 
+// Backend configuration for GamesLab links
+const DEFAULT_BACKEND_HOST = process.env.BACKEND_URL || 'https://localhost:8080';
+const getBackendHost = () => {
+    if (typeof window !== 'undefined') {
+        const searchParams = new URLSearchParams(window.location.search);
+        return searchParams.get('backend_host') || DEFAULT_BACKEND_HOST;
+    }
+    return DEFAULT_BACKEND_HOST;
+};
+
 const AccountNavComponent = ({
     className,
-    classroomId,
-    isEducator,
     isOpen,
     isRtl,
-    isStudent,
     menuBarMenuClassName,
     onClick,
     onClose,
-    onLogOut,
-    profileUrl,
     thumbnailUrl,
     username
 }) => (
@@ -65,52 +70,13 @@ const AccountNavComponent = ({
             place={isRtl ? 'right' : 'left'}
             onRequestClose={onClose}
         >
-            <MenuItemContainer href={profileUrl}>
-                <FormattedMessage
-                    defaultMessage="Profile"
-                    description="Text to link to my user profile, in the account navigation menu"
-                    id="gui.accountMenu.profile"
-                />
-            </MenuItemContainer>
-            <MenuItemContainer href="/mystuff/">
-                <FormattedMessage
-                    defaultMessage="My Stuff"
-                    description="Text to link to list of my projects, in the account navigation menu"
-                    id="gui.accountMenu.myStuff"
-                />
-            </MenuItemContainer>
-            {isEducator ? (
-                <MenuItemContainer href="/educators/classes/">
-                    <FormattedMessage
-                        defaultMessage="My Classes"
-                        description="Text to link to my classes (if I am a teacher), in the account navigation menu"
-                        id="gui.accountMenu.myClasses"
-                    />
-                </MenuItemContainer>
-            ) : null}
-            {isStudent ? (
-                <MenuItemContainer href={`/classes/${classroomId}/`}>
-                    <FormattedMessage
-                        defaultMessage="My Class"
-                        description="Text to link to my class (if I am a student), in the account navigation menu"
-                        id="gui.accountMenu.myClass"
-                    />
-                </MenuItemContainer>
-            ) : null}
-            <MenuItemContainer href="/accounts/settings/">
-                <FormattedMessage
-                    defaultMessage="Account settings"
-                    description="Text to link to my account settings, in the account navigation menu"
-                    id="gui.accountMenu.accountSettings"
-                />
+            {/* GamesLab Dashboard Link */}
+            <MenuItemContainer href={`${getBackendHost()}/schueler`}>
+                GamesLab Dashboard
             </MenuItemContainer>
             <MenuSection>
-                <MenuItemContainer onClick={onLogOut}>
-                    <FormattedMessage
-                        defaultMessage="Sign out"
-                        description="Text to link to sign out, in the account navigation menu"
-                        id="gui.accountMenu.signOut"
-                    />
+                <MenuItemContainer href={`${getBackendHost()}/api/schueler/logout`}>
+                    Abmelden
                 </MenuItemContainer>
             </MenuSection>
         </MenuBarMenu>
@@ -119,16 +85,11 @@ const AccountNavComponent = ({
 
 AccountNavComponent.propTypes = {
     className: PropTypes.string,
-    classroomId: PropTypes.string,
-    isEducator: PropTypes.bool,
     isOpen: PropTypes.bool,
     isRtl: PropTypes.bool,
-    isStudent: PropTypes.bool,
     menuBarMenuClassName: PropTypes.string,
     onClick: PropTypes.func,
     onClose: PropTypes.func,
-    onLogOut: PropTypes.func,
-    profileUrl: PropTypes.string,
     thumbnailUrl: PropTypes.string,
     username: PropTypes.string
 };
