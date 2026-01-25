@@ -72,7 +72,11 @@ const AccountNavComponent = ({
         >
             {/* GamesLab Dashboard Link */}
             <MenuItemContainer href={`${getBackendHost()}/schueler`}>
-                GamesLab Dashboard
+                <FormattedMessage
+                    defaultMessage="My Dashboard"
+                    description="Text to link to my dashboard"
+                    id="gui.accountMenu.dashboard"
+                />
             </MenuItemContainer>
             <MenuSection>
                 <MenuItemContainer href={`${getBackendHost()}/api/schueler/logout`}>

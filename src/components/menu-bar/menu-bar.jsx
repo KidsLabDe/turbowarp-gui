@@ -1049,6 +1049,7 @@ class MenuBar extends React.Component {
                             onClick={this.props.onClickAccount}
                             onClose={this.props.onRequestCloseAccount}
                             onLogOut={this.props.onLogOut}
+                            profileUrl={this.props.profileUrl}
                             username={this.props.username}
                         />
                     ) : null}
@@ -1166,6 +1167,7 @@ MenuBar.propTypes = {
     showSaveFilePicker: PropTypes.func,
     showComingSoon: PropTypes.bool,
     username: PropTypes.string,
+    profileUrl: PropTypes.string,
     userOwnsProject: PropTypes.bool,
     vm: PropTypes.instanceOf(VM).isRequired
 };
@@ -1199,6 +1201,7 @@ const mapStateToProps = (state, ownProps) => {
         sessionExists: state.session && typeof state.session.session !== 'undefined',
         settingsMenuOpen: settingsMenuOpen(state),
         username: user ? user.username : null,
+        profileUrl: user ? user.profileUrl : null,
         userOwnsProject: ownProps.authorUsername && user &&
             (ownProps.authorUsername === user.username),
         vm: state.scratchGui.vm,

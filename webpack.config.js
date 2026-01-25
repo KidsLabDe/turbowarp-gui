@@ -14,7 +14,8 @@ const postcssImport = require('postcss-import');
 const STATIC_PATH = process.env.STATIC_PATH || '/static';
 const {APP_NAME} = require('./src/lib/brand');
 
-const root = process.env.ROOT || '';
+// GamesLab: Default to absolute path to fix routing with /projectId/editor URLs
+const root = process.env.ROOT || '/';
 if (root.length > 0 && !root.endsWith('/')) {
     throw new Error('If ROOT is defined, it must have a trailing slash.');
 }
